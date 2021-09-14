@@ -1,6 +1,7 @@
 #include <iostream>
 
 constexpr int N = 9;
+constexpr int S = 3; // S = sqrt(N)
 
 bool isInRow(int grid[N][N], int row, int number);
 bool isInCol(int grid[N][N], int col, int number);
@@ -35,9 +36,9 @@ bool solveSudoku(int grid[N][N]) {
 
 	if (!fetchEmpty(grid, row, col)) return true;
 
-	for (int n = 1; n <= 9; n++) {
-		if (isSafe(grid, row, col, n)) {
-			grid[row][col] = n;
+	for (int testNumber = 1; testNumber <= 9; testNumber++) {
+		if (isSafe(grid, row, col, testNumber)) {
+			grid[row][col] = testNumber;
 
 			if (solveSudoku(grid)) return true;
 
@@ -78,8 +79,8 @@ bool isInCol(int grid[N][N], int col, int number) {
 }
 
 bool isInBox(int grid[N][N], int row, int col, int number) {
-	int box_row = row - row % 3;
-	int box_col = col - col % 3;
+	int box_row = row - row % S;
+	int box_col = col - col % S;
 
 	for (int r = box_row; r < box_row + 3; r++) {
 		for (int c = box_col; c < box_col + 3; c++) {
